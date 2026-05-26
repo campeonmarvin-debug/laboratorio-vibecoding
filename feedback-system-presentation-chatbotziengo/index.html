@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<!--
+  ╔══════════════════════════════════════════════════════════════╗
+  ║  PRESENTACIÓN: SISTEMA DE FEEDBACK — CHATBOT ZIENGO          ║
+  ║  Autor: Marvin (Growth Partner)                              ║
+  ║  Este archivo arma la ESTRUCTURA (los "ladrillos" de la web) ║
+  ║  El diseño visual está en styles.css                         ║
+  ║  La interactividad (cambiar de slide) está en script.js      ║
+  ╚══════════════════════════════════════════════════════════════╝
+-->
+<html lang="es">
+<head>
+  <!-- Configuración básica del documento -->
+  <meta charset="UTF-8" />
+  <!-- viewport: hace que la página se vea bien en celulares y pantallas distintas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Sistema de Feedback — Chatbot Ziengo</title>
+
+  <!-- Conectamos la hoja de estilos (el "diseño visual") -->
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+
+  <!--
+    CONTENEDOR PRINCIPAL DE LA PRESENTACIÓN
+    Adentro vamos a tener los 5 slides, uno detrás del otro.
+    El JavaScript se encargará de mostrar solo uno por vez.
+  -->
+  <main class="presentation">
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- SLIDE 1: PORTADA                                          -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!--
+      data-slide-index="0" → es una etiqueta para que JS identifique
+      cada slide por su número. Empezamos en 0 (como cuenta JS).
+      La clase "is-active" indica cuál slide se muestra ahora.
+    -->
+    <section class="slide is-active" data-slide-index="0">
+      <div class="slide-content">
+        <p class="slide-eyebrow">Presentación</p>
+        <h1 class="slide-title">Sistema de Feedback</h1>
+        <p class="slide-subtitle">Beta de Chatbot Ziengo con usuarios</p>
+        <p class="slide-author">Marvin — Growth Partner</p>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- SLIDE 2: CONTEXTO                                         -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <section class="slide" data-slide-index="1">
+      <div class="slide-content">
+        <p class="slide-eyebrow">01 · Contexto</p>
+        <h1 class="slide-title">¿Qué es Chatbot Ziengo?</h1>
+        <p class="slide-body">
+          Una webapp con chatbot que, mediante web scraping,
+          centraliza y responde sobre promos de tus marcas favoritas.
+        </p>
+        <p class="slide-body slide-body-muted">
+          Esta beta busca validar el producto con usuarios reales
+          antes de escalar.
+        </p>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- SLIDE 3: CÓMO RECOLECTAMOS FEEDBACK                       -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <section class="slide" data-slide-index="2">
+      <div class="slide-content">
+        <p class="slide-eyebrow">02 · Recolección</p>
+        <h1 class="slide-title">Cómo recolectamos feedback</h1>
+
+        <!--
+          ul = unordered list = lista desordenada (con viñetas).
+          Cada <li> es un elemento de la lista.
+          Estos son PLACEHOLDERS: vos los reemplazás con los reales.
+        -->
+        <ul class="slide-list">
+          <li>Encuestas in-app al cerrar conversación</li>
+          <li>Entrevistas 1:1 con usuarios activos</li>
+          <li>Métricas de uso del chatbot</li>
+          <li>Reportes espontáneos de los usuarios</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- SLIDE 4: CÓMO LO PROCESAMOS Y PRIORIZAMOS                 -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <section class="slide" data-slide-index="3">
+      <div class="slide-content">
+        <p class="slide-eyebrow">03 · Procesamiento</p>
+        <h1 class="slide-title">Cómo lo procesamos y priorizamos</h1>
+        <ul class="slide-list">
+          <li>Categorización por tipo (bug, feature, UX, contenido)</li>
+          <li>Cruce con métricas: ¿cuántos lo reportan?</li>
+          <li>Priorización por impacto vs. esfuerzo</li>
+          <li>Decisión semanal sobre qué se ataca primero</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- SLIDE 5: CIERRE                                           -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <section class="slide" data-slide-index="4">
+      <div class="slide-content">
+        <p class="slide-eyebrow">Cierre</p>
+        <h1 class="slide-title">Próximos pasos</h1>
+        <p class="slide-body">
+          Iteramos sobre los hallazgos clave de la beta
+          y preparamos al producto para una expansión controlada.
+        </p>
+        <p class="slide-author">Gracias.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <!--
+    ═══════════════════════════════════════════════════════════
+    CONTROLES DE NAVEGACIÓN
+    Botones de izquierda/derecha + contador "X de Y".
+    El JavaScript escucha los clicks y las flechas del teclado.
+    ═══════════════════════════════════════════════════════════
+  -->
+  <nav class="controls" aria-label="Navegación de slides">
+    <!--
+      type="button" evita que el botón intente enviar un formulario.
+      aria-label es para lectores de pantalla (accesibilidad).
+    -->
+    <button
+      type="button"
+      class="nav-button"
+      id="prev-button"
+      aria-label="Slide anterior"
+    >
+      ←
+    </button>
+
+    <!--
+      El contador se llena dinámicamente con JS.
+      Por ahora arranca en "1 / 5" como placeholder estático.
+    -->
+    <span class="slide-counter" id="slide-counter">1 / 5</span>
+
+    <button
+      type="button"
+      class="nav-button"
+      id="next-button"
+      aria-label="Slide siguiente"
+    >
+      →
+    </button>
+  </nav>
+
+  <!--
+    Conectamos el archivo de JavaScript al final del <body>.
+    Lo ponemos al final para que el HTML cargue primero
+    y el JS pueda encontrar todos los elementos cuando se ejecute.
+  -->
+  <script src="script.js"></script>
+
+</body>
+</html>

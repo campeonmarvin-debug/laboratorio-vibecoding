@@ -1,0 +1,321 @@
+/*
+  ╔══════════════════════════════════════════════════════════════╗
+  ║  ESTILOS — SISTEMA DE FEEDBACK CHATBOT ZIENGO                ║
+  ║  Estética: minimalista, tipo Apple                           ║
+  ║  Paleta:   blanco roto + gris oscuro + acento negro          ║
+  ╚══════════════════════════════════════════════════════════════╝
+
+  CÓMO LEER ESTE ARCHIVO:
+  CSS funciona así → "elemento { propiedad: valor; }"
+  Es como decir: "a TAL cosa, ponele TAL característica".
+*/
+
+
+/* ─────────────────────────────────────────────────────────────
+   1. VARIABLES DE COLOR Y MEDIDAS
+   Las definimos una vez acá arriba y las reusamos en todo el
+   archivo. Si querés cambiar el color principal, lo cambiás
+   acá y se actualiza en toda la presentación.
+   ───────────────────────────────────────────────────────────── */
+:root {
+  /* Colores */
+  --color-background: #F5F5F7;   /* blanco roto (fondo) */
+  --color-text:       #1D1D1F;   /* gris muy oscuro (texto principal) */
+  --color-muted:      #6E6E73;   /* gris medio (texto secundario) */
+  --color-accent:     #000000;   /* negro puro (acentos y botones) */
+  --color-border:     #D2D2D7;   /* gris clarito (líneas finas) */
+
+  /* Tipografía */
+  --font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display",
+                 "Helvetica Neue", "Inter", Arial, sans-serif;
+
+  /* Tiempo de las animaciones */
+  --transition-speed: 0.6s;
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   2. RESET BÁSICO
+   Los navegadores aplican estilos por defecto distintos entre sí.
+   Acá los "limpiamos" para empezar todos desde cero parejo.
+   ───────────────────────────────────────────────────────────── */
+* {
+  /* Resetea márgenes y rellenos a cero en TODOS los elementos */
+  margin: 0;
+  padding: 0;
+  /* box-sizing: border-box hace que padding+border NO sumen al ancho.
+     Es decir, si decís "100px de ancho", queda 100px, no 110. */
+  box-sizing: border-box;
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   3. CUERPO DE LA PÁGINA
+   El "lienzo" general donde viven los slides.
+   ───────────────────────────────────────────────────────────── */
+body {
+  font-family: var(--font-family);
+  color: var(--color-text);
+  background-color: var(--color-background);
+
+  /* Hacemos que el body ocupe TODA la ventana (100% del alto) */
+  min-height: 100vh;  /* vh = viewport height = % de la altura de pantalla */
+
+  /* Suaviza la tipografía (más legible y elegante) */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   4. CONTENEDOR DE LA PRESENTACIÓN
+   Es el "marco" que contiene los 5 slides.
+   ───────────────────────────────────────────────────────────── */
+.presentation {
+  /* Position relative: para que los slides adentro (absolute)
+     se posicionen RESPECTO a este contenedor, no a la pantalla */
+  position: relative;
+  width: 100%;
+  height: 100vh;       /* ocupa toda la altura de la ventana */
+  overflow: hidden;    /* esconde lo que se desborde */
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   5. SLIDES
+   Cada slide ocupa toda la pantalla y está superpuesto al resto.
+   Solo el que tenga la clase ".is-active" es visible.
+   ───────────────────────────────────────────────────────────── */
+.slide {
+  /* position absolute = se "despega" del flujo normal del documento.
+     Los slides quedan apilados uno encima del otro. */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  /* Centrar el contenido del slide vertical y horizontalmente */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* Por defecto, todos los slides están INVISIBLES */
+  opacity: 0;
+  visibility: hidden;
+  /* Los movemos un poquito hacia abajo para la animación de entrada */
+  transform: translateY(20px);
+
+  /* La transición: cuánto tarda en cambiar entre estados.
+     "all" significa: animá todas las propiedades que cambien. */
+  transition: opacity var(--transition-speed) ease,
+              transform var(--transition-speed) ease,
+              visibility var(--transition-speed) ease;
+}
+
+/*
+  Cuando un slide tiene la clase "is-active":
+  → se vuelve visible
+  → vuelve a su posición original
+  → opacidad al 100%
+  El JavaScript se encarga de poner/sacar esta clase.
+*/
+.slide.is-active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   6. CONTENIDO DENTRO DE CADA SLIDE
+   Acá centramos y damos espacio respirable a los textos.
+   ───────────────────────────────────────────────────────────── */
+.slide-content {
+  /* Ancho máximo: aunque la pantalla sea muy ancha,
+     el texto no se estira más de 720px (más legible). */
+  max-width: 720px;
+  padding: 0 2rem;     /* respiración a los lados */
+  text-align: left;    /* texto alineado a la izquierda */
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   7. TIPOGRAFÍA DE LOS SLIDES
+   Tamaños grandes, mucho espacio. Estilo Apple.
+   ───────────────────────────────────────────────────────────── */
+
+/* "Eyebrow": el textito chiquito arriba del título principal */
+.slide-eyebrow {
+  font-size: 0.875rem;        /* chico */
+  font-weight: 500;
+  text-transform: uppercase;  /* TODO EN MAYÚSCULAS */
+  letter-spacing: 0.12em;     /* separación entre letras */
+  color: var(--color-muted);
+  margin-bottom: 1.5rem;
+}
+
+/* Título principal del slide */
+.slide-title {
+  /* Tipografía grande, pero responsiva (se adapta a la pantalla):
+     - mínimo 2.5rem
+     - ideal 5vw (5% del ancho de la pantalla)
+     - máximo 4.5rem */
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  font-weight: 600;
+  line-height: 1.1;           /* poco espacio entre líneas (compacto) */
+  letter-spacing: -0.02em;    /* letras un poquito juntas (estilo Apple) */
+  color: var(--color-accent); /* negro puro */
+  margin-bottom: 1.5rem;
+}
+
+/* Subtítulo (usado en la portada) */
+.slide-subtitle {
+  font-size: clamp(1.125rem, 1.8vw, 1.5rem);
+  font-weight: 400;
+  color: var(--color-muted);
+  margin-bottom: 3rem;
+}
+
+/* Texto de párrafo principal */
+.slide-body {
+  font-size: clamp(1.125rem, 1.5vw, 1.375rem);
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--color-text);
+  margin-bottom: 1.25rem;
+  max-width: 600px;  /* no muy ancho, más fácil de leer */
+}
+
+/* Texto secundario (gris, más sutil) */
+.slide-body-muted {
+  color: var(--color-muted);
+}
+
+/* Nombre del autor / firma de cierre */
+.slide-author {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--color-muted);
+  margin-top: 2rem;
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   8. LISTAS (usadas en slides 3 y 4)
+   ───────────────────────────────────────────────────────────── */
+.slide-list {
+  list-style: none;  /* sin viñetas por defecto, vamos a poner las nuestras */
+  margin-top: 1rem;
+}
+
+.slide-list li {
+  font-size: clamp(1.125rem, 1.5vw, 1.375rem);
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--color-text);
+  padding-left: 2rem;
+  position: relative;       /* necesario para posicionar la "viñeta" */
+  margin-bottom: 1rem;
+}
+
+/*
+  ::before es un "pseudo-elemento": creamos un contenido decorativo
+  ANTES de cada <li>. Acá lo usamos como una línea negra a la izquierda.
+*/
+.slide-list li::before {
+  content: "";                          /* contenido vacío, solo decoración */
+  position: absolute;
+  left: 0;
+  top: 0.85em;                          /* alineada con el texto */
+  width: 1rem;
+  height: 1px;
+  background-color: var(--color-accent); /* línea negra */
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   9. CONTROLES DE NAVEGACIÓN
+   La barra inferior con los botones ← → y el contador.
+   ───────────────────────────────────────────────────────────── */
+.controls {
+  /* fixed = pegado a la ventana, no se mueve con el scroll */
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);  /* truco para centrar horizontalmente */
+
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;                  /* espacio entre los hijos (botones + contador) */
+
+  background-color: rgba(255, 255, 255, 0.7);  /* blanco semitransparente */
+  backdrop-filter: blur(20px);                  /* efecto vidrio esmerilado (Apple) */
+  -webkit-backdrop-filter: blur(20px);
+
+  padding: 0.75rem 1.25rem;
+  border-radius: 999px;          /* píldora súper redonda */
+  border: 1px solid var(--color-border);
+}
+
+/* Los botones de flecha */
+.nav-button {
+  background: transparent;       /* sin color de fondo */
+  border: none;                  /* sin borde */
+  cursor: pointer;               /* el cursor cambia a "manito" al pasar encima */
+  font-size: 1.25rem;
+  color: var(--color-accent);
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;            /* circular */
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+/* :hover = cuando el mouse pasa por encima del botón */
+.nav-button:hover {
+  background-color: rgba(0, 0, 0, 0.06);  /* gris muy suave */
+}
+
+/* :active = cuando lo estás CLICKEANDO (presionando) */
+.nav-button:active {
+  transform: scale(0.95);  /* se achica apenas, da sensación de "presionado" */
+}
+
+/* :disabled = cuando el botón no se puede usar (ej: ya estoy en el primer slide) */
+.nav-button:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* El contador "1 / 5" */
+.slide-counter {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-muted);
+  font-variant-numeric: tabular-nums;  /* números con ancho fijo (no "saltan") */
+  min-width: 3rem;
+  text-align: center;
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   10. RESPONSIVE — PANTALLAS CHICAS (celulares)
+   "@media (max-width: 600px)" = aplica solo si la pantalla
+   es de 600px o menos de ancho. Ajustamos espacios.
+   ───────────────────────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .slide-content {
+    padding: 0 1.5rem;
+  }
+
+  .controls {
+    bottom: 1.25rem;
+    padding: 0.5rem 1rem;
+    gap: 1rem;
+  }
+}
